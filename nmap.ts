@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import ping from 'ping'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers';
@@ -39,7 +40,7 @@ else{console.log("escaneando la ip")
             if(data.toString().includes("SSH")){servicio="SSH"}
                 resolve(`${puerto} ${estado}; servicio: ${servicio}`); socket.destroy(); return
             })
-            socket.on("error",function(){ socket.destroy(); resolve(`el puerto:${puerto} está ${estado}`); return
+            socket.on("error",function(){ socket.destroy(); resolve(`el puerto:${puerto} está ${estado}`);console.log("error"); return
 
             })
 
@@ -49,7 +50,7 @@ else{console.log("escaneando la ip")
 
             
         }).then(function(conclusion:Promise<String>){if(!conclusion.includes("cerrado")){console.log(conclusion)}});promesas.push(promesa)
-        if(i%20===0){await Promise.all(promesas)}; promesas=[]
+        if(i%50===0){await Promise.all(promesas)}; promesas=[]
     ++i}
         await Promise.all(promesas)
 }
